@@ -1,5 +1,8 @@
 import { createApp } from 'vue'
 import './style.css'
-import App from './App.vue'
-
-createApp(App).mount('#app')
+import { createPinia } from 'pinia'
+import App from './App-copy.vue'
+import "./firebase"
+createApp(App).use(createPinia()).mount('#app')
+// createApp(App).mount('#app')
+// app.use(createPinia())
