@@ -1,60 +1,145 @@
 <template>
-    <li class="bg-white p-4 rounded shadow">
-      <h3 class="text-lg font-semibold">{{ requirement.title }}</h3>
-      <p>{{ requirement.description }}</p>
-      <div class="mt-2">
-        <span class="mr-2">Status: {{ requirement.status }}</span>
-        <span class="mr-2">Priority: {{ requirement.priority }}</span>
-        <span>Stakeholder: {{ requirement.stakeholder }}</span>
+  <div
+    class="bg-white rounded-lg shadow-md p-4 mb-4 cursor-move hover:shadow-lg transition-shadow duration-300"
+    :class="{ 'border-l-4': !isEditing, 'border-l-8': isEditing }"
+    :style="{ borderLeftColor: getPriorityColor(requirement.priority) }"
+  >
+    <div v-if="!isEditing" @click="startEditing" class="cursor-pointer">
+      <h3 class="text-lg font-semibold mb-2">{{ requirement.title }}</h3>
+      <p class="text-gray-600 mb-3">{{ requirement.description }}</p>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <span 
+          :class="{
+            'bg-yellow-100 text-yellow-800': requirement.status === 'Draft',
+            'bg-blue-100 text-blue-800': requirement.status === 'Review',
+            'bg-green-100 text-green-800': requirement.status === 'Approved',
+            'bg-purple-100 text-purple-800': requirement.status === 'Implemented'
+          }"
+          class="px-3 py-1 rounded-full text-sm font-medium"
+        >
+          {{ requirement.status }}
+        </span>
+
+        <span 
+          :class="{
+            'bg-orange-100 text-orange-800': requirement.priority === 'High',
+            'bg-blue-100 text-blue-800': requirement.priority === 'Medium',
+            'bg-gray-100 text-gray-800': requirement.priority === 'Low'
+          }"
+          class="px-2 py-1 rounded-full text-sm"
+        >
+          {{ requirement.priority }}
+        </span>
+
+        <span class="px-2 py-1 bg-gray-200 rounded-full text-xs font-medium text-gray-700">
+          {{ requirement.stakeholder }}
+        </span>
       </div>
-      <div class="mt-2">
-        <label class="mr-2">Update Status:</label>
+    </div>
+    <div v-else class="space-y-3 p-4">
+      <h1 class="font-bold ">Edit Project Requirements</h1>
+      <input
+        v-model="editedRequirement.title"
+        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Title"
+      />
+      <textarea
+        v-model="editedRequirement.description"
+        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Description"
+        rows="3"
+      ></textarea>
+      <div class="flex gap-2">
         <select
-          :value="requirement.status"
-          @change="updateStatus"
-          class="p-1 border rounded"
+          v-model="editedRequirement.status"
+          class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option v-for="status in statuses" :key="status" :value="status">
             {{ status }}
           </option>
         </select>
-        <button
-          @click="$emit('delete-requirement', requirement.id)"
-          class="ml-2 bg-red-500 text-white p-1 rounded"
+        <select
+          v-model="editedRequirement.priority"
+          class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          Delete
-        </button>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <input
+          v-model="editedRequirement.stakeholder"
+          class="flex-grow p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Stakeholder"
+        />
       </div>
-    </li>
-  </template>
-  
-  <script lang="ts">
-  import { defineComponent, PropType } from 'vue';
-  import { Requirement, RequirementStatus } from '../models/Requirement';
-  
-  export default defineComponent({
-    name: 'RequirementItem',
-    props: {
-      requirement: {
-        type: Object as PropType<Requirement>,
-        required: true
-      }
-    },
-    emits: ['update-status', 'delete-requirement'],
-    setup(props, { emit }) {
-      const statuses = Object.values(RequirementStatus);
-  
-      const updateStatus = (event: Event) => {
-        const newStatus = (event.target as HTMLSelectElement).value as RequirementStatus;
-        emit('update-status', props.requirement.id, newStatus);
-      };
-  
-      return {
-        statuses,
-        updateStatus
-      };
-    }
-  });
-  </script>
-  
-  
+    </div>
+    <div class="flex justify-end mt-3 space-x-2">
+      <button
+        v-if="isEditing"
+        @click="saveChanges"
+        class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-300"
+      >
+        Save
+      </button>
+      <button
+        v-if="isEditing"
+        @click="cancelEditing"
+        class="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition-colors duration-300"
+      >
+        Cancel
+      </button>
+
+      <TrashIcon   v-if="!isEditing"
+      @click="deleteRequirement" class="h-6 w-6 text-red-500 hover:text-red-600 " />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from 'vue';
+import { TrashIcon } from '@heroicons/vue/24/solid';
+
+
+
+
+const props = defineProps({
+  requirement: {
+    type: Object,
+    required: true
+  }
+});
+
+const emit = defineEmits(['update-requirement', 'delete-requirement']);
+
+const isEditing = ref(false);
+const editedRequirement = reactive({ ...props.requirement });
+
+const statuses = ['Draft', 'Review', 'Approved', 'Implemented'];
+
+const startEditing = () => {
+  isEditing.value = true;
+};
+
+const saveChanges = () => {
+  emit('update-requirement', { ...editedRequirement });
+  isEditing.value = false;
+};
+
+const cancelEditing = () => {
+  Object.assign(editedRequirement, props.requirement);
+  isEditing.value = false;
+};
+
+const deleteRequirement = () => {
+  emit('delete-requirement', props.requirement.id);
+};
+
+const getPriorityColor = (priority) => {
+  const colors = {
+    'Low': '#00FF00',
+    'Medium': '#FFFF00',
+    'High': '#f60638'
+  };
+  return colors[priority] || '#00FF00';
+};
+</script>

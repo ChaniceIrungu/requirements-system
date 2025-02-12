@@ -4,14 +4,18 @@
       <template v-if="isLoggedIn">
       <div class="flex">
         <Sidebar />
-        <div class="flex-1 p-8">
+        <div class="flex-1">
           <Header :user="user" @logout="handleLogout" @new-requirement="showRequirementForm = true" />
-          <RequirementsList />
+          <div class="p-8">
+            
+           <RequirementsList />
           <RequirementForm 
-            v-if="showRequirementForm" 
-            @close="showRequirementForm = false"
-            @submit="handleRequirementSubmit"
+          :isOpen="showRequirementForm" 
+      @close="showRequirementForm = false"
+      @submit="handleRequirementSubmit"
           />
+          </div>
+        
         </div>
       </div>
     </template>
@@ -28,8 +32,8 @@ import { getAuth } from 'firebase/auth';
 import { useGoogleLogin } from './composables/useGoogleLogin';
 import Sidebar from './components/Sidebar.vue';
 import Header from './components/Header.vue';
-import RequirementsList from './components/RequirementsList-copy.vue';
-import RequirementForm from './components/RequirementForm-copy.vue';
+import RequirementsList from './components/RequirementsList.vue';
+import RequirementForm from './components/RequirementForm.vue';
 import LandingPage from './components/LandingPage.vue';
 
 

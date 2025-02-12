@@ -1,25 +1,40 @@
 <template>
-  <div :class="['bg-gray-800 text-white w-64 min-h-screen p-4 transition-all duration-300', { '-ml-64': !isOpen }]">
-    <button @click="toggleSidebar" class="absolute top-4 right-4 md:hidden">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-      </svg>
-    </button>
-    <h2 class="text-2xl font-semibold mb-6">ReqMaster</h2>
-    
+  <div
+    :class="[
+      'flex flex-col h-screen bg-gray-900 text-white p-4 transition-all duration-300',
+      isCollapsed ? 'w-20' : 'w-64'
+    ]"
+  >
+    <div class="flex items-center justify-between mb-8">
+      <h1 :class="['text-2xl font-bold transition-opacity duration-300', isCollapsed ? 'opacity-0' : 'opacity-100']">
+        {{ isCollapsed ? 'PM' : 'ProjectMaster' }}
+      </h1>
+      <button @click="isCollapsed = !isCollapsed" class="p-2">
+        <ChevronLeftIcon v-if="!isCollapsed" class="w-6 h-6" />
+        <ChevronRightIcon v-else class="w-6 h-6" />
+      </button>
+    </div>
     <nav>
       <ul class="space-y-2">
-        <li>
-          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200">Dashboard</a>
-        </li>
-        <li>
-          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200">Requirements</a>
-        </li>
-        <li>
-          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200">Analytics</a>
-        </li>
-        <li>
-          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition-colors duration-200">Settings</a>
+        <li v-for="(item, index) in menuItems" :key="index">
+          <a
+            href="#"
+            class="flex items-center p-2 rounded-lg hover:bg-gray-800 transition-colors"
+            @mouseenter="scale = 1.05"
+            @mouseleave="scale = 1"
+            @mousedown="scale = 0.95"
+            @mouseup="scale = 1.05"
+          >
+            <component :is="item.icon" class="w-6 h-6" />
+            <span
+              :class="[
+                'ml-4 transition-all duration-300',
+                isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'
+              ]"
+            >
+              {{ item.label }}
+            </span>
+          </a>
         </li>
       </ul>
     </nav>
@@ -27,13 +42,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-// import Header from './RequirementItem.vue';
+import { ref } from 'vue'
+import { HomeIcon, BriefcaseIcon, CalendarIcon, Cog6ToothIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 
-const isOpen = ref(true);
+const isCollapsed = ref(false)
+const scale = ref(1)
 
-const toggleSidebar = () => {
-  isOpen.value = !isOpen.value;
-};
+const menuItems = [
+  { icon: HomeIcon, label: "Dashboard" },
+  { icon: BriefcaseIcon, label: "Projects" },
+  { icon: CalendarIcon, label: "Calendar" },
+  { icon: Cog6ToothIcon, label: "Settings" },
+]
 </script>
 

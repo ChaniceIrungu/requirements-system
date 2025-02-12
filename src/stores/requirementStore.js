@@ -1,9 +1,34 @@
 import { defineStore } from "pinia"
 import { RequirementStatus, RequirementPriority } from "../models/Requirement"
 
+export const dummyRequirements = [
+  {
+    id: "1",
+    title: "Implement user authentication",
+    description: "Add login and registration functionality for users",
+    status: "Review",
+    priority: "High",
+  },
+  {
+    id: "2",
+    title: "Create dashboard layout",
+    description: "Design and implement the main dashboard layout",
+    status: "Draft",
+    priority: "Medium",
+  },
+  {
+    id: "3",
+    title: "Optimize database queries",
+    description: "Improve the performance of database queries for faster load times",
+    status: "Approved",
+    priority: "High",
+  },
+]
+
+
 export const useRequirementStore = defineStore("requirement", {
   state: () => ({
-    requirements: [],
+    requirements: dummyRequirements,
   }),
 
   getters: {
