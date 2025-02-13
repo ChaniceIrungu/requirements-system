@@ -3,24 +3,26 @@
     <header class="container mx-auto px-4 py-8">
       <nav class="flex justify-between items-center">
         <div v-motion="headerAnimation">
-          <h1 class="text-2xl font-bold text-blue-600">ProjectMaster</h1>
+          <h1 class="text-xl md:text-2xl font-bold text-blue-600">Project Master</h1>
         </div>
         <div v-motion="headerAnimation">
-          <button @click="handleGoogleLogin" class="flex items-center bg-white text-gray-800 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors duration-200">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" class="w-6 h-6 mr-2">
-    Sign in with Google
-  </button>
-          <!-- <button
-            class="px-4 py-2 bg-white text-blue-600 rounded-md shadow-md hover:bg-blue-50 transition-colors"
+          <button
+            @click="handleGoogleLogin"
+            class="flex items-center bg-white text-gray-800 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors duration-200"
           >
-            Sign In
-          </button> -->
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              alt="Google logo"
+              class="w-6 h-6 mr-2"
+            />
+            Sign in
+          </button>
         </div>
       </nav>
     </header>
 
     <main class="container mx-auto px-4 py-16">
-      <div class="flex flex-col lg:flex-row items-center justify-between">
+      <div class="flex flex-col lg:flex-row items-center justify-center md:justify-between">
         <div v-motion="contentAnimation" class="lg:w-1/2 mb-12 lg:mb-0">
           <h2 class="text-4xl lg:text-5xl font-bold mb-6 text-gray-800">
             Streamline Your Projects with ProjectMaster
@@ -31,7 +33,7 @@
           </p>
           <button
             class="px-6 py-3 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 transition-colors text-lg"
-             @click="handleGoogleLogin"
+            @click="handleGoogleLogin"
           >
             Get Started
             <ArrowRightIcon class="inline-block w-5 h-5 ml-2" />
@@ -40,7 +42,7 @@
 
         <div v-motion="imageAnimation" class="lg:w-1/2">
           <img
-            src="https://placehold.co/600x400"
+            src="../assets/landing-bg.jpg?height=400&width=600"
             alt="Project Management Dashboard"
             class="rounded-lg shadow-2xl"
           />
@@ -58,20 +60,20 @@
             class="bg-white p-6 rounded-lg shadow-md"
             v-motion="featureItemAnimation(index)"
           >
-            <CheckCircleIcon class="w-6 h-6 text-green-500 mb-4" />
+            <CheckCircleIcon class="w-6 h-6 text-blue-600 mb-4" />
             <p class="text-lg text-gray-700">{{ feature }}</p>
           </div>
         </div>
       </div>
     </main>
 
-    <footer class="bg-blue-600 text-white py-8 mt-24">
+    <footer class="bg-blue-900 text-white py-8 mt-24">
       <div class="container mx-auto px-4">
         <div
           v-motion="footerAnimation"
           class="flex flex-col md:flex-row justify-between items-center"
         >
-          <p>&copy; 2023 ProjectMaster. All rights reserved.</p>
+          <p>&copy; 2025 ProjectMaster. All rights reserved.</p>
           <div class="mt-4 md:mt-0">
             <a href="#" class="mx-2 hover:text-blue-400 transition-colors"
               >Privacy Policy</a
@@ -89,17 +91,9 @@
   </div>
 </template>
 
-<!-- <div class="flex justify-center">
-  <button @click="handleGoogleLogin" class="flex items-center bg-white text-gray-800 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors duration-200">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" class="w-6 h-6 mr-2">
-    Sign in with Google
-  </button>
-</div> -->
-
 <script setup>
 import { useGoogleLogin } from "../composables/useGoogleLogin";
 import { ArrowRightIcon, CheckCircleIcon } from "@heroicons/vue/24/solid";
-import { useMotion } from "@vueuse/motion";
 
 const { login } = useGoogleLogin();
 const emit = defineEmits(["login"]); // Define the event
@@ -125,46 +119,45 @@ const handleGoogleLogin = async () => {
   }
 };
 
-
 const features = [
   "Intuitive project management",
   "Requirements tracking",
   "Task prioritization",
   "Team collaboration",
   "Real-time updates",
-]
+];
 
 const headerAnimation = {
   initial: { opacity: 0, x: -20 },
   enter: { opacity: 1, x: 0, transition: { duration: 500 } },
-}
+};
 
 const contentAnimation = {
   initial: { opacity: 0, y: 20 },
   enter: { opacity: 1, y: 0, transition: { duration: 500, delay: 200 } },
-}
+};
 
 const imageAnimation = {
   initial: { opacity: 0, scale: 0.8 },
   enter: { opacity: 1, scale: 1, transition: { duration: 500, delay: 400 } },
-}
+};
 
 const featuresAnimation = {
   initial: { opacity: 0, y: 20 },
   enter: { opacity: 1, y: 0, transition: { duration: 500, delay: 600 } },
-}
+};
 
 const featureItemAnimation = (index) => ({
   initial: { opacity: 0, y: 20 },
-  enter: { opacity: 1, y: 0, transition: { duration: 500, delay: 800 + index * 100 } },
-})
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 500, delay: 800 + index * 100 },
+  },
+});
 
 const footerAnimation = {
   initial: { opacity: 0, y: 20 },
   enter: { opacity: 1, y: 0, transition: { duration: 500, delay: 1000 } },
-}
-
-
-
-
+};
 </script>

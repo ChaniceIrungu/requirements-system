@@ -25,7 +25,7 @@
             <button type="button" @click="$emit('close')" class="bg-gray-300 p-2 rounded">
               Cancel
             </button>
-            <button type="submit" class="bg-blue-500 text-white p-2 rounded">
+            <button type="submit" class="bg-blue-800 text-white p-2 rounded">
               Add Requirement
             </button>
           </div>
@@ -35,58 +35,52 @@
   </transition>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useRequirementStore } from '@/stores/requirementStore';
-import { Requirement, RequirementPriority } from '@/models/Requirement';
+<script setup lang="ts">
+import { ref } from "vue";
+import { useRequirementStore } from "@/stores/requirementStore";
+import { Requirement, RequirementPriority } from "@/models/Requirement";
 
-export default defineComponent({
-  name: 'RequirementForm',
-  props: {
-    isOpen: Boolean // Prop to control modal visibility
-  },
-  emits: ['close', 'submit'], // Declare emitted events
-  setup(_, { emit }) {
-    const store = useRequirementStore();
-    const title = ref('');
-    const description = ref('');
-    const priority = ref<RequirementPriority>(RequirementPriority.Medium);
-    const stakeholder = ref('');
 
-    const priorities = Object.values(RequirementPriority);
+defineProps<{ isOpen: boolean }>();
+const emit = defineEmits(["close", "submit"]);
+const store = useRequirementStore();
 
-    const addRequirement = () => {
-      const newRequirement = new Requirement(
-        title.value,
-        description.value,
-        priority.value,
-        stakeholder.value
-      );
-      if (newRequirement.validate()) {
-        store.addRequirement(newRequirement);
-        title.value = '';
-        description.value = '';
-        priority.value = RequirementPriority.Medium;
-        stakeholder.value = '';
-        emit('submit'); // Emit submit event
-        emit('close'); // Close modal after submitting
-      }
-    };
 
-    return {
-      title,
-      description,
-      priority,
-      stakeholder,
-      priorities,
-      addRequirement
-    };
+const title = ref("");
+const description = ref("");
+const priority = ref<RequirementPriority>(RequirementPriority.Medium);
+const stakeholder = ref("");
+
+
+const priorities = Object.values(RequirementPriority);
+
+
+const addRequirement = () => {
+  const newRequirement = new Requirement(
+    title.value,
+    description.value,
+    priority.value,
+    stakeholder.value
+  );
+
+  if (newRequirement.validate()) {
+    store.addRequirement(newRequirement);
+    
+  // Reset form fields
+    title.value = "";
+    description.value = "";
+    priority.value = RequirementPriority.Medium;
+    stakeholder.value = "";
+
+    // Emit events
+    emit("submit");
+    emit("close");
   }
-});
+};
 </script>
 
+
 <style>
-/* Fade transition */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.3s;
 }

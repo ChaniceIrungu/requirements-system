@@ -1,31 +1,31 @@
 <template>
   <header class="bg-white shadow-md p-4">
     <div class="flex items-center justify-between">
-      <div class="flex items-center" :style="{ width: isSearchOpen ? '100%' : 'auto' }">
+      <div class="flex items-center">
         <h2 v-if="!isSearchOpen" class="text-xl font-semibold mr-4">Dashboard</h2>
-        <div class="relative" :style="{ width: isSearchOpen ? '100%' : 'auto' }">
+        <div class="relative hidden md:block" :style="{ width: isSearchOpen ? '100%' : 'auto' }">
           <input
             type="text"
             placeholder="Search..."
-            :class="['pl-10 py-2 pr-4 rounded-md border border-gray-300', isSearchOpen ? 'w-full' : 'w-48']"
+            :class="['pl-10 py-2 pr-4 rounded-md border border-gray-300', isSearchOpen ? 'w-50' : 'w-48']"
             @focus="isSearchOpen = true"
             @blur="isSearchOpen = false"
           />
           <MagnifyingGlassIcon class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         </div>
         <div class="px-4">
-          <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-200"  @click="emitNewRequirement" >
+          <button class="bg-indigo-700 text-white px-2 md:px-4 py-2 rounded-md hover:bg-gray-700 transition-colors duration-200 text-sm md:text-base"  @click="emitNewRequirement" >
         New Requirement
       </button>
         </div>
        
       </div>
-      <div class="flex items-center space-x-4">
-        <button class="relative">
-          <BellIcon class="w-6 h-6" />
+      <div class="flex items-center space-x-4 ">
+        <button class="relative hidden md:block">
+          <BellIcon class="w-6 h-6 " />
           <span class="absolute top-0 right-0 bg-red-500 rounded-full w-2 h-2"></span>
         </button>
-        <Menu as="div" class="relative">
+        <Menu as="div" class="relative hidden md:block">
           <MenuButton>
             <img
               class="h-8 w-8 rounded-full"

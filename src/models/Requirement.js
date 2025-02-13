@@ -15,7 +15,7 @@ export const RequirementStatus = {
 
   export class Requirement {
     constructor(title, description, priority, stakeholder) {
-      this.id = Date.now().toString()
+      this.id =crypto.randomUUID();
       this.title = title
       this.description = description
       this.status = RequirementStatus.Draft

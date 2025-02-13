@@ -1,15 +1,15 @@
 <template>
   <div
     :class="[
-      'flex flex-col h-screen bg-gray-900 text-white p-4 transition-all duration-300',
+      'md:flex flex-col md:h-screen bg-indigo-900 text-white p-4 transition-all duration-300',
       isCollapsed ? 'w-20' : 'w-64'
     ]"
   >
     <div class="flex items-center justify-between mb-8">
-      <h1 :class="['text-2xl font-bold transition-opacity duration-300', isCollapsed ? 'opacity-0' : 'opacity-100']">
+      <h1 :class="['text-xl md:text-2xl font-bold transition-opacity duration-300', isCollapsed ? 'opacity-0' : 'opacity-100']">
         {{ isCollapsed ? 'PM' : 'ProjectMaster' }}
       </h1>
-      <button @click="isCollapsed = !isCollapsed" class="p-2">
+      <button @click="isCollapsed = !isCollapsed" class="p-2 ">
         <ChevronLeftIcon v-if="!isCollapsed" class="w-6 h-6" />
         <ChevronRightIcon v-else class="w-6 h-6" />
       </button>
