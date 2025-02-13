@@ -42,17 +42,6 @@ const { user, login, logout } = useGoogleLogin();
 const showRequirementForm = ref(false);
 const isLoggedIn = ref(false);
 
-// needed for firebase support
-onMounted(() => {
-  // Check if user is already logged in
-  // const auth = getAuth();
-  // auth.onAuthStateChanged((currentUser) => {
-  //   if (currentUser) {
-  //     user.value = currentUser;
-  //   }
-  // });
-});
-
 const handleLogout = async () => {
   await logout();
 };
@@ -62,7 +51,6 @@ const handleLogin = (loggedInUser) => {
   user.value = loggedInUser;
 };
 const handleRequirementSubmit = (requirement) => {
-  // Handle the new requirement submission
   console.log("New requirement:", requirement);
   showRequirementForm.value = false;
 };

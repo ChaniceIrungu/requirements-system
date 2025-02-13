@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'md:flex flex-col md:h-screen bg-indigo-900 text-white p-4 transition-all duration-300',
+      'md:flex flex-col md:h-screen bg-white text-blue-800 p-4 transition-all duration-300',
       isCollapsed ? 'w-20' : 'w-64'
     ]"
   >

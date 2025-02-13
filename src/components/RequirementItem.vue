@@ -16,7 +16,7 @@
             'bg-purple-100 text-purple-800':
               requirement.status === 'Implemented',
           }"
-          class="px-3 py-1 rounded-full text-sm font-medium"
+          class="px-3 py-2 rounded-full text-sm font-medium"
         >
           {{ requirement.status }}
         </span>
@@ -27,7 +27,7 @@
             'bg-blue-100 text-blue-800': requirement.priority === 'Medium',
             'bg-gray-100 text-gray-800': requirement.priority === 'Low',
           }"
-          class="px-2 py-1 rounded-full text-sm"
+          class="px-2 py-2 rounded-full text-sm"
         >
           {{ requirement.priority }}
         </span>
@@ -101,7 +101,7 @@
       <TrashIcon
         v-if="!isEditing"
         @click="deleteRequirement"
-        class="h-6 w-6 text-red-500 hover:text-red-600"
+        class="h-6 w-6 text-red-200 hover:text-red-400"
       />
     </div>
   </div>
@@ -150,7 +150,7 @@ const getPriorityColor = (priority) => {
   const colors = {
     Low: "#00FF00",
     Medium: "#FFFF00",
-    High: "#f60638",
+    High: "#ff9b9b",
   };
   return colors[priority] || "#00FF00";
 };

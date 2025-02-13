@@ -11,8 +11,6 @@ export const RequirementStatus = {
     High: "High",
   }
   
-
-
   export class Requirement {
     constructor(title, description, priority, stakeholder) {
       this.id =crypto.randomUUID();
