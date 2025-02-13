@@ -1,30 +1,69 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div
+    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+  >
+    <template v-if="isLoggedIn">
+      <div class="flex">
+        <Sidebar />
+        <div class="md:flex-1">
+          <Header
+            :user="user"
+            @logout="handleLogout"
+            @new-requirement="showRequirementForm = true"
+          />
+          <div class="p-2 md:p-8">
+            <RequirementsList />
+            <RequirementForm
+              :isOpen="showRequirementForm"
+              @close="showRequirementForm = false"
+              @submit="handleRequirementSubmit"
+            />
+          </div>
+        </div>
+      </div>
+    </template>
+    <template v-else>
+      <LandingPage @login="handleLogin" />
+    </template>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<script setup>
+import { ref, onMounted } from "vue";
+import { getAuth } from "firebase/auth";
+import { useGoogleLogin } from "./composables/useGoogleLogin";
+import Sidebar from "./components/Sidebar.vue";
+import Header from "./components/Header.vue";
+import RequirementsList from "./components/RequirementsList.vue";
+import RequirementForm from "./components/RequirementForm.vue";
+import LandingPage from "./components/LandingPage.vue";
+
+const { user, login, logout } = useGoogleLogin();
+const showRequirementForm = ref(false);
+const isLoggedIn = ref(false);
+
+// needed for firebase support
+onMounted(() => {
+  // Check if user is already logged in
+  // const auth = getAuth();
+  // auth.onAuthStateChanged((currentUser) => {
+  //   if (currentUser) {
+  //     user.value = currentUser;
+  //   }
+  // });
+});
+
+const handleLogout = async () => {
+  await logout();
+};
+
+const handleLogin = (loggedInUser) => {
+  isLoggedIn.value = true;
+  user.value = loggedInUser;
+};
+const handleRequirementSubmit = (requirement) => {
+  // Handle the new requirement submission
+  console.log("New requirement:", requirement);
+  showRequirementForm.value = false;
+};
+</script>
