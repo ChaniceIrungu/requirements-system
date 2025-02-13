@@ -30,7 +30,6 @@
           {{ status }}:
           <span class="text-blue-600">{{ requirementStats[status] || 0 }}</span>
         </h3>
-
         <draggable
           :list="sortedRequirements.filter((req) => req.status === status)"
           group="requirements"
