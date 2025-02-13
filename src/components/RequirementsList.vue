@@ -24,7 +24,7 @@
       <div
         v-for="status in statuses"
         :key="status"
-        class="flex-1 bg-gray-200 p-4 rounded "
+        class="flex-1 bg-gray-200 p-4 rounded border-r-2 border-white "
       >
         <h3 class="font-bold mb-2">
           {{ status }}:
@@ -36,7 +36,7 @@
           group="requirements"
           item-key="id"
           @change="handleDragChange(status, $event)"
-          class="mb-4"
+          class="mb-4 z"
         >
           <template #item="{ element }">
             <RequirementItem
