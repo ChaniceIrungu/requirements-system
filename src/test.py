@@ -43,6 +43,6 @@ print(f)
 g = a.difference(b)
 print(g) 
 
-# to modify set a use intersection_update() or differnce_update()
+# to modify set use intersection_update() or differnce_update()
 
 # 4. dictionarys
