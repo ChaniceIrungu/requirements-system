@@ -1,6 +1,6 @@
 # Defining the Person class
 class Person:
-    # constructor methids to initiliaze a new Person 
+    # constructor method to initiliaze a new Person 
     def __init__(self, name, age):
         # instance attributes to store name, age and other attributes needed
         self.name = name
@@ -14,5 +14,5 @@ class Person:
 # an instance of the Person class with name "Shan" and age 28
 person1 = Person("Shan", 28)
 
-# calling the introduce method to dispaly shan's details
+# calling the introduce method to display shan's details
 person1.introduce()

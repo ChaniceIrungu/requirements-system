@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
 import { HomeIcon, BriefcaseIcon, CalendarIcon, Cog6ToothIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
 
 const isCollapsed = ref(false)
@@ -54,5 +54,12 @@ const menuItems = [
   { icon: CalendarIcon, label: "Calendar" },
   { icon: Cog6ToothIcon, label: "Settings" },
 ]
+
+// Collapse sidebar on small screens initially
+onMounted(() => {
+  if (window.innerWidth < 640) { 
+    isCollapsed.value = true
+  }
+})
 </script>
 
