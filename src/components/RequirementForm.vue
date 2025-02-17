@@ -4,7 +4,7 @@
       v-if="isOpen" 
       class="fixed inset-0 flex justify-center items-center z-50  bg-black/40 backdrop-blur-"
     >
-      <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+      <div class="bg-white p-6 rounded-lg shadow-lg md:w-1/2">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-xl font-semibold">Add New Requirement</h2>
           <button @click="$emit('close')" class="text-gray-600 hover:text-gray-900">✖</button>
